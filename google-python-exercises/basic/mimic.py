@@ -41,26 +41,58 @@ columns, so the output looks better.
 
 """
 
+from cmath import log
 import random
 import sys
-
+import os
+random.seed(234)
 
 def mimic_dict(filename):
   """Returns mimic dict mapping each word to list of words which follow it."""
   # +++your code here+++
-  return
+  #SOLUTION
+  with open(f'./google-python-exercises/basic/{filename}') as file:
+    lines = file.read()
+
+  text=lines.replace("\n","")
+  text=text.split()
+  text=[word.lower() for word in text if word.isalpha()]
+
+  dict={}
+
+  ln=len(text)
+  i=0
+  dict[""]=text[i:i+21]
+  for word in text:     
+    if i<ln-20:
+      dict[word]=text[i+1:i+21]
+    elif i>ln-20 and i!=ln:
+      dict[word]=text[i+1:-1]
+    else:
+        pass
+    i+=1
+
+  return dict
 
 
-def print_mimic(mimic_dict, word):
+def print_mimic(mimic_dict: dict, word):
   """Given mimic dict and start word, prints 200 random words."""
   # +++your code here+++
-  return
+  #SOLUTION
+  for i in range(0,201):
+      print(word)
+      if len(word)==0 or len(mimic_dict.get(word))==0 is None:
+        word=""
+      words=mimic_dict[word]
+      word=random.choice(words)
+      i+=1
+      pass
 
 
 # Provided main(), calls mimic_dict() and mimic()
 def main():
   if len(sys.argv) != 2:
-    print 'usage: ./mimic.py file-to-read'
+    print('usage: ./mimic.py file-to-read')
     sys.exit(1)
 
   dict = mimic_dict(sys.argv[1])
